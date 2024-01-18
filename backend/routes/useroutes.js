@@ -8,13 +8,11 @@ import {
   
 export const userRoute = express.Router();
   
-  userRoute.post("api/register", registerUser);
+  userRoute.post("/register", registerUser);
   userRoute.post("/login", loginUser);
 
 
 
-userRoute.get("/register",(req,res)=>{
-    res.send('register')
-});
+
 
 

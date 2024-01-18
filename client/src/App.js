@@ -1,17 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import {Routes,Router,Navigate, Route} from "react-router-dom"
+import Chat from "./pages/Chat";
 
+import Navbar from "./components/Navbar";
+import {Container} from "react-bootstrap";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-       
-      </header>
-    </div>
+<>
+  <Navbar/>
+  <Container>
+    <Routes>
+    <Route path="/" element={<Chat/>} />
+    <Route path="/register" element={<Register/>} />
+     <Route path="/login" element={<Login/>} />
+  </Routes>
+  </Container>
+  </>
+ 
   );
 }
 

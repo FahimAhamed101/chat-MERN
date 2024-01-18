@@ -6,7 +6,10 @@ import dotenv from "dotenv";
 import {
   userRoute
 } from "./routes/useroutes.js";
-
+import {
+  chatRoute
+} from "./routes/chatroutes.js";
+import { messageRoute } from "./routes/messageroutes.js";
 dotenv.config();
 const app = express();
 
@@ -23,7 +26,8 @@ app.get('/', (req,res) => {
   });
 
 app.use('/api/users',userRoute);
-
+app.use('/api/chats',chatRoute);
+app.use('/api/messages',messageRoute);
 mongoose.connect(process.env.MONGO_URL).then((res) => {
     console.log("Database connected");
   }).catch (error => console.log(error));;
