@@ -23,3 +23,5 @@ const  UserChat = ({chat,user}) =>{
         </Stack>
     )
 }
+
+export default UserChat
