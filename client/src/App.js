@@ -8,9 +8,6 @@ import NavBar from "./components/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
-
-
-
 function App() {
   const { user } = useContext(AuthContext);
   return (
@@ -27,7 +24,5 @@ function App() {
     </ChatContextProvider>
   );
 }
-
-
 
 export default App;
