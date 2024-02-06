@@ -1,43 +1,41 @@
+import path from "path";
 import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import cookieParser from "cookie-parser"
 import dotenv from "dotenv";
-import {
-  userRoute
-} from "./routes/useroutes.js";
-import {
-  chatRoute
-} from "./routes/chatroutes.js";
-import { messageRoute } from "./routes/messageroutes.js";
+import cookieParser from "cookie-parser";
+
+import authRoutes from "./routes/auth.routes.js";
+import messageRoutes from "./routes/message.routes.js";
+import userRoutes from "./routes/user.routes.js";
+
+import connectToMongoDB from "./DB/connectToMongoDB.js";
+import { app, server } from "./socket/socket.js";
+
+const PORT = process.env.PORT || 5000;
+
+const __dirname = path.resolve();
+
 dotenv.config();
-const app = express();
 
-
-app.use(express.json());
+app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
-app.use(cors({
-  credentials: true,
-  origin: process.env.CLIENT_URL,
-}));
 
-app.get('/', (req,res) => {
-    res.json('welcome to chat api');
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/users", userRoutes);
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
+
+server.listen(PORT, () => {
+	connectToMongoDB();
+	console.log(`Server Running on port ${PORT}`);
+});
+
+
+
+  app.get("/", (req, res) => {
+    res.send("WElcome to Chat APP");
   });
-
-app.use('/api/users',userRoute);
-app.use('/api/chats',chatRoute);
-app.use('/api/messages',messageRoute);
-mongoose.connect(process.env.MONGO_URL).then((res) => {
-    console.log("Database connected");
-  }).catch (error => console.log(error));;
-
-const port = process.env.PORT || 4000
-
-app.listen(port, (req,res) => {
-    console.log(`server running on port : ${port} `);
-  });
-
-
-
-
